@@ -32,7 +32,7 @@ map.addLayer(lightMaplayer);
 
 // Marker symbol for the simulator plane
 let simPlaneMarkerIcon = L.icon({
-    iconUrl: "/style/icons/plane.png",
+    iconUrl: "style/icons/plane.png",
     iconSize: [30, 30],
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]
@@ -40,7 +40,7 @@ let simPlaneMarkerIcon = L.icon({
 
 // Marker symbol for Vatsim planes
 let vatsimMarkerIcon = L.icon({
-    iconUrl: "/style/icons/plane.png",
+    iconUrl: "style/icons/plane.png",
     iconSize: [20, 20],
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]

@@ -1,0 +1,325 @@
+/******************************* Following is from style.css *****************************************/
+:root {
+    --navbar-height: 56px; 
+    --footer-height: 56px;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+a, a:hover, a:visited, a:active {
+    text-decoration: none;
+   }
+
+table, th, td {
+    text-align: center;
+  }
+
+.pic_description {
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
+  }
+  
+.meme, .img-fluid {
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+
+.weather {
+    margin-bottom: 100px;
+}
+
+#qrInput, #rngInput {
+    display: flex;
+}
+
+#generateQrButton, #generateNumberButton {
+    margin-left: 10px;
+}
+
+#game_cards {
+    text-align: center;
+    display: inline-block;
+}
+
+#dealer, #player {
+    display: inline-block;
+    text-align: center;
+}
+
+#game_actions {
+    text-align: center;
+}
+
+#winner {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+#rx_control_div {
+    display: flex;
+    gap: 10px;
+}
+
+
+#msfs_map, #iss_map {
+    height: 600px;
+}
+
+
+/*
+#center_aircraft_toggle_button {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+#general_vatsim_info img{
+    list-style: none;
+}
+
+#upcoming_events img, ul{
+    list-style: none;
+    width: 100%;
+}
+*/
+.frontpage-container {
+    /* font-family: 'Courier New', Courier, monospace; */
+    font-size: 18px;
+    display: grid;
+    height: calc(100vh - var(--navbar-height));
+    width: 100%;
+    background-image: url(/static/images/florian-olivo-4hbJ-eymZ1o-unsplash.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* filter: blur(8px); */
+    grid-template-columns: 30% 40% ;
+    grid-template-rows: 30%;
+    align-content: center;
+    justify-content: center;
+    column-gap: 5%;
+    row-gap: 50px;
+}
+
+@media (max-width:800px) {
+    .frontpage-container {
+        /* height: calc(100vh - var(--navbar-height)); */
+        height: 130vh;
+        grid-template-columns:90%;
+        grid-template-rows: 200px;
+        align-content: start;
+        justify-content: center;
+        column-gap: 10px;
+        row-gap: 10px;
+        background-attachment: fixed;
+        font-size: 18px;
+    }
+
+    .about-me {
+        margin-top: 20px;
+    }
+
+    .description {
+        margin-bottom: 20px;
+    }
+
+    .image img {
+        object-fit: cover;
+    }
+}
+
+.about-me, .description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(24, 24, 24);
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.about-me:hover .image img {
+    opacity: 1;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    position: absolute;
+}
+
+.image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.image img{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+    border-radius: 25px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.description {
+    padding: 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 56px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/************************* Following is ex msfs link styling *****************************************/
+
+.leaflet-control {
+    background-color: #3261fd;
+    border-radius: 10px;
+}
+
+.leaflet-control-zoom {
+    border-radius: 10px;
+}
+
+.leaflet-control-zoom a, .leaflet-control-zoom a:hover {
+    background-color: #3261fd;
+}
+
+.msfs-link-main-container {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    /* height: 100%; */
+    width: 100%;
+}
+
+.map {
+    /* height: calc(100vh - var(--navbar-height) - var(--footer-height)); */
+    width: 100%;
+    border-radius: 25px;
+    margin: 10px 10px 0px 10px;
+}
+
+.simconnect-status-container {
+    position: absolute;
+    left: 10px;
+    cursor:default;
+}
+
+.vatsim-networkinfo-container {
+    position: absolute;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #00ff6a; */
+}
+
+.vatsim-networkinfo-container p{
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #3261fd;
+    font-style: bold;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.ui-control {
+    position: absolute;
+    right: 10px;
+    width: auto;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto;
+    column-gap: 10px;
+    justify-content: center;
+    align-content: center;
+}
+
+.ui-control button {
+    border-radius: 10px;
+    height: 30px;
+    width: 50px;
+    border: none;
+    outline: none;
+    background-color: #4bff45;
+}
+
+
+.aircraft-data-container {
+    position: absolute;
+    top: 100px;
+    right: 15px;
+    height: auto;
+    width: 300px;
+    padding: 20px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.781);
+    z-index: 5000;
+    overflow: auto;
+
+}
+
+.aircraft-data-container p {
+    margin-bottom: 0;
+}
+
+
+.vatsim-events-container {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    height: 60%;
+    width: 44%;
+    padding: 20px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.781);
+    z-index: 5000;
+    overflow: auto;
+}
+
+.vatsim-events-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 25px;
+}
+
+.vatsim-event-list {
+    list-style: none;
+}
+
+/* Customize the popup */
+.leaflet-popup-content-wrapper {
+    background-color: #3261fd; 
+    color: #ffffff;            
+    font-size: 14px;            
+    padding: 10px;              
+    border-radius: 8px;         
+    border: 2px solid #007bff; 
+  }
+  
+  /* Customize the popup tip */
+  .leaflet-popup-tip {
+    background: #3261fd; /* Color the tip */
+  }

@@ -17,164 +17,6 @@ table, th, td {
     text-align: center;
   }
 
-.pic_description {
-    margin-left: 5%;
-    margin-right: 5%;
-    text-align: left;
-  }
-  
-.meme, .img-fluid {
-    height: auto;
-    width: 100%;
-    text-align: center;
-}
-
-.weather {
-    margin-bottom: 100px;
-}
-
-#qrInput, #rngInput {
-    display: flex;
-}
-
-#generateQrButton, #generateNumberButton {
-    margin-left: 10px;
-}
-
-#game_cards {
-    text-align: center;
-    display: inline-block;
-}
-
-#dealer, #player {
-    display: inline-block;
-    text-align: center;
-}
-
-#game_actions {
-    text-align: center;
-}
-
-#winner {
-    opacity: 1;
-    transition: opacity 1s ease-in-out;
-}
-
-#rx_control_div {
-    display: flex;
-    gap: 10px;
-}
-
-
-#msfs_map, #iss_map {
-    height: 600px;
-}
-
-
-/*
-#center_aircraft_toggle_button {
-    grid-column-start: 1;
-    grid-column-end: 4;
-}
-
-#general_vatsim_info img{
-    list-style: none;
-}
-
-#upcoming_events img, ul{
-    list-style: none;
-    width: 100%;
-}
-*/
-.frontpage-container {
-    /* font-family: 'Courier New', Courier, monospace; */
-    font-size: 18px;
-    display: grid;
-    height: calc(100vh - var(--navbar-height));
-    width: 100%;
-    background-image: url(/static/images/florian-olivo-4hbJ-eymZ1o-unsplash.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    /* filter: blur(8px); */
-    grid-template-columns: 30% 40% ;
-    grid-template-rows: 30%;
-    align-content: center;
-    justify-content: center;
-    column-gap: 5%;
-    row-gap: 50px;
-}
-
-@media (max-width:800px) {
-    .frontpage-container {
-        /* height: calc(100vh - var(--navbar-height)); */
-        height: 130vh;
-        grid-template-columns:90%;
-        grid-template-rows: 200px;
-        align-content: start;
-        justify-content: center;
-        column-gap: 10px;
-        row-gap: 10px;
-        background-attachment: fixed;
-        font-size: 18px;
-    }
-
-    .about-me {
-        margin-top: 20px;
-    }
-
-    .description {
-        margin-bottom: 20px;
-    }
-
-    .image img {
-        object-fit: cover;
-    }
-}
-
-.about-me, .description {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgb(24, 24, 24);
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
-    opacity: 0.9;
-}
-
-.about-me:hover .image img {
-    opacity: 1;
-}
-
-.name {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    position: absolute;
-}
-
-.image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-}
-
-.image img{
-    height: 100%;
-    width: 100%;
-    position: relative;
-    object-fit: cover;
-    border-radius: 25px;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-.description {
-    padding: 20px;
-}
 
 footer {
     position: absolute;
@@ -284,7 +126,6 @@ footer {
     margin-bottom: 0;
 }
 
-
 .vatsim-events-container {
     position: absolute;
     bottom: 10px;
@@ -323,3 +164,12 @@ footer {
   .leaflet-popup-tip {
     background: #3261fd; /* Color the tip */
   }
+
+  @media (max-width:800px) {
+    footer {
+        position: relative;
+        top: 100%;
+        height: var(--footer-height);
+        flex-direction: row;
+    }
+}

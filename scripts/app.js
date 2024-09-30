@@ -329,19 +329,28 @@ let updateVatsimNetworkData = data => {
 //This data fetching is done on server site, since I get CORS issue when fetching form JavasScript on browser
 // Fetching for Vatsim events
 function getVatsimEvents() {
-    console.log("Getting upcoming Vatsim events...");
-    $.getJSON("/get_upcoming_events", {}, function(data) {
-        try {
-            updateEvents(data);
-        }
-        catch(error) {
-            console.error(error);
-        }
-    });
+    console.log("getVatsimEvents");
+    const PROXY_URL = 'https://cors-anywhere.herokuapp.com/' // To avoid cors issue during development
+    const URL = 'https://my.vatsim.net/api/v2/events/latest';
+    fetch(PROXY_URL + URL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was no ok ' + reponse.statusText)
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        updateVatsimEvents(data);
+
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation', error);
+        })
 }
 
 // Update the events on the page
-function updateEvents(data) {
+function updateVatsimEvents(data) {
     console.log("Updating events...")
     console.log(data)
 
@@ -399,6 +408,8 @@ function isEventLive(start_time, end_time) {
     const event_start = new Date(start_time); // Parse the format of start time ISO8601
     const event_end = new Date(end_time); // Parse the format of end time ISO8601
 
+    //console.log(timestamp, event_start, event_end);
+
     let live = false;
     let startingSoon = false;
 
@@ -406,7 +417,7 @@ function isEventLive(start_time, end_time) {
     timeDifference = timeDifference.toFixed(0);
 
     if (timeDifference <= 60) {
-        //console.log("Event is starting soon!");
+        console.log("Event is starting soon!");
         startingSoon = true;
     }
 
@@ -414,9 +425,9 @@ function isEventLive(start_time, end_time) {
         //console.log("Event is live!");
         live = true;
     } else if (timestamp > event_end) {
-        //console.log("Event is over...")
+        console.log("Event is over...")
     } else {
-        //console.log("Event has not started yet...")
+        console.log("Event has not started yet...")
     }
     return [live, startingSoon, timeDifference];
 }
@@ -570,7 +581,7 @@ themeButton.addEventListener("click", function() {
 // First initialize
 setMsfsTheme(getCurrentTheme());
 initializeUI();
-// getVatsimEvents(); 
+getVatsimEvents(); 
 // getPlaneData();
 getVatsimNetworkData()
 setInterval(saveCurrentMapView, 5000);

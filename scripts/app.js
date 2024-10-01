@@ -326,13 +326,13 @@ let updateVatsimNetworkData = data => {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-//This data fetching is done on server site, since I get CORS issue when fetching form JavasScript on browser
-// Fetching for Vatsim events
+
 function getVatsimEvents() {
     console.log("getVatsimEvents");
     const PROXY_URL = 'https://cors-anywhere.herokuapp.com/' // To avoid cors issue during development
     const URL = 'https://my.vatsim.net/api/v2/events/latest';
-    fetch(PROXY_URL + URL)
+    // fetch(PROXY_URL + URL)
+    fetch(URL)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was no ok ' + reponse.statusText)

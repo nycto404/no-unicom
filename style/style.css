@@ -179,13 +179,15 @@ footer {
 }
 
 @media (max-width:800px) {
-
   body {
-    height: 100dvh;
+    height: 110vh;
   }
-
+  /* .navbar {
+    display: none;
+  } */
   footer {
       position: absolute;
+      top: 110%;
       height: var(--footer-height);
       flex-direction: row;
   }

@@ -3,10 +3,10 @@ const themeButton = document.getElementById("light_dark_switch");
 
 // Define the map
 let map = L.map('map', {
-    dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
-    fullscreenControl: {
-        pseudoFullscreen: false // if true, fullscreen to page width and height
-    },
+    // dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
+    // fullscreenControl: {
+    //     pseudoFullscreen: false // if true, fullscreen to page width and height
+    // },
     zoom: 10,
     minZoom: 2.5,
     maxZoom: 20,
@@ -144,6 +144,7 @@ updateConnectionLabel = (simConnected) => {
 }
 
 // Getting plane data from the simulator by calling the server script
+// Only works when running from the Flask server which has the backend Python script to fetch the data from Microsoft Flight Simulator
 function getPlaneData() {
     console.log("Getting plane data...");
     $.getJSON("/get_plane_data", {}, function(data) {
@@ -293,7 +294,8 @@ let updateVatsimNetworkData = data => {
 
     // Update existing markers or add new ones
     data.pilots.forEach(pilot => {
-        const { callsign, latitude, longitude, heading } = pilot;
+        const { callsign, latitude, longitude, heading, flight_plan, altitude, transponder } = pilot;
+        const { aircraft_short, departure, arrival } = flight_plan;
 
         if (vatsimMarkers[callsign]) {
             // Update position and heading if marker already exists
@@ -304,9 +306,14 @@ let updateVatsimNetworkData = data => {
             const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);
             newMarker.setRotationAngle(heading);
 
-            newMarker.bindPopup(callsign);
-            newMarker.on("mouseover", function() { this.openPopup(); });
-            newMarker.on("mouseout", function() { this.closePopup(); });
+            newMarker.bindPopup(
+                `<h5>${callsign}</h5>
+                <h6>${aircraft_short}</h6>
+                <p>${departure} > ${arrival}
+                `
+            );
+            // newMarker.on("mouseover", function() { this.openPopup(); });
+            // newMarker.on("mouseout", function() { this.closePopup(); });
 
             vatsimMarkers[callsign] = newMarker;
         }
@@ -350,6 +357,7 @@ function getVatsimEvents() {
 }
 
 // Update the events on the page
+// Also only works when running the application from the Flask server due to CORS issues undortunately :(
 function updateVatsimEvents(data) {
     console.log("Updating events...")
     console.log(data)

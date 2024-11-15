@@ -3,10 +3,10 @@ const themeButton = document.getElementById("light_dark_switch");
 
 // Define the map
 let map = L.map('map', {
-    // dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
-    // fullscreenControl: {
-    //     pseudoFullscreen: false // if true, fullscreen to page width and height
-    // },
+    dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
+    fullscreenControl: {
+        pseudoFullscreen: false // if true, fullscreen to page width and height
+    },
     zoom: 10,
     minZoom: 2.5,
     maxZoom: 20,

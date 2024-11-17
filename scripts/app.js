@@ -288,37 +288,53 @@ let updateVatsimNetworkData = data => {
     let startTime = new Date().getTime();
     $("#pilots_online").text(data.pilots.length);
     $("#controllers_online").text(data.controllers.length);
-
     // Create a set of current callsigns. 
     const currentCallsigns = new Set(data.pilots.map(pilot => pilot.callsign));
+    let flight_plan, aircraft_short, departure, arrival;
 
     // Update existing markers or add new ones
-    data.pilots.forEach(pilot => {
-        const { callsign, latitude, longitude, heading, flight_plan, altitude, transponder } = pilot;
-        const { aircraft_short, departure, arrival } = flight_plan;
-
-        if (vatsimMarkers[callsign]) {
-            // Update position and heading if marker already exists
-            vatsimMarkers[callsign].setLatLng([latitude, longitude]);
-            vatsimMarkers[callsign].setRotationAngle(heading);
-        } else {
-            // Create and add new marker if it doesn't exist
-            const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);
-            newMarker.setRotationAngle(heading);
-
-            newMarker.bindPopup(
-                `<h5>${callsign}</h5>
-                <h6>${aircraft_short}</h6>
-                <p>${departure} > ${arrival}
-                `
-            );
-            // newMarker.on("mouseover", function() { this.openPopup(); });
-            // newMarker.on("mouseout", function() { this.closePopup(); });
-
-            vatsimMarkers[callsign] = newMarker;
+    data.pilots.forEach((pilot, index) => {
+        const { callsign, latitude, longitude, heading, altitude, transponder } = pilot;
+        console.log(index);
+        try {
+            // Assign variables within the try block
+            flight_plan = pilot.flight_plan;
+            if (flight_plan) {
+                ({ aircraft_short, departure, arrival } = flight_plan);
+            }
+            console.log(callsign);
+            console.log(flight_plan);        
+        } catch (error) {
+            console.log(error);
+        } finally {
+            if (vatsimMarkers[callsign]) {
+                // Update position and heading if marker already exists
+                vatsimMarkers[callsign].setLatLng([latitude, longitude]);
+                vatsimMarkers[callsign].setRotationAngle(heading);
+            } else {
+                // Create and add new marker if it doesn't exist
+                const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);
+                newMarker.setRotationAngle(heading);
+                if (flight_plan) {
+                    newMarker.bindPopup(
+                        `<h5>${callsign}</h5>
+                         <h6>${aircraft_short}</h6>
+                         <p>${departure} > ${arrival}
+                        `
+                    );
+                } else {
+                    newMarker.bindPopup(
+                        `<h5>No Flightplan...</h5>
+                        `
+                    );
+                }
+                // newMarker.on("mouseover", function() { this.openPopup(); });
+                // newMarker.on("mouseout", function() { this.closePopup(); });
+    
+                vatsimMarkers[callsign] = newMarker;
+            }
         }
     });
-
     // Remove markers that are no longer present in the new data
     Object.keys(vatsimMarkers).forEach(callsign => {
         if (!currentCallsigns.has(callsign)) {
@@ -326,7 +342,6 @@ let updateVatsimNetworkData = data => {
             delete vatsimMarkers[callsign];
         }
     });
-
     let endTime = new Date().getTime();
     let duration = endTime - startTime;
     console.log("Update duration: ", duration, " ms");

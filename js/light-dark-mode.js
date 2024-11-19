@@ -6,7 +6,7 @@ function setTheme(themeName) {
     console.log("Setting theme...");
     console.log(themeName);
     localStorage.setItem("theme", themeName);
-    document.documentElement.setAttribute('data-bs-theme', themeName);
+    document.documentElement.setAttribute('data-theme', themeName);
     if (themeName == "light") {
         lightDarkSwitch.className = "btn btn-dark";
         lightDarkSwitchIcon.className = "fa-solid fa-moon";
@@ -27,14 +27,4 @@ function toggleTheme() {
     }  
 }
 
-function setDefaults() {
-    // If first time visit, set the deffault values to localstorage
-    console.log("Setting defaults...")
-    if (!localStorage.getItem("theme")) {
-        console.log("Setting 'theme'...");
-        localStorage.setItem("theme", "light");
-    }
-}
-
-setDefaults();
 setTheme(localStorage.getItem("theme"));

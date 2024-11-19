@@ -3,10 +3,10 @@ const themeButton = document.getElementById("light_dark_switch");
 
 // Define the map
 let map = L.map('map', {
-    dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
-    fullscreenControl: {
-        pseudoFullscreen: false // if true, fullscreen to page width and height
-    },
+    // dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
+    // fullscreenControl: {
+    //     pseudoFullscreen: false // if true, fullscreen to page width and height
+    // },
     zoom: 10,
     minZoom: 2.5,
     maxZoom: 20,
@@ -31,23 +31,23 @@ const layerControl = L.control.layers(baseLayers).addTo(map);
 map.addLayer(lightMaplayer);
 
 // Marker symbol for the simulator plane
-let simPlaneMarkerIcon = L.icon({
-    iconUrl: "style/icons/plane.png",
-    iconSize: [30, 30],
-    iconAnchor: [15, 0],
-    popupAnchor: [0, 0]
-})
+// let simPlaneMarkerIcon = L.icon({
+//     iconUrl: "images/plane.png",
+//     iconSize: [30, 30],
+//     iconAnchor: [15, 0],
+//     popupAnchor: [0, 0]
+// })
 
 // Marker symbol for Vatsim planes
 let vatsimMarkerIcon = L.icon({
-    iconUrl: "style/icons/plane.png",
+    iconUrl: "images/plane.png",
     iconSize: [20, 20],
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]
 })
 
 // Icon
-let simPlaneMarker = L.marker([0, 0], {icon: simPlaneMarkerIcon}).addTo(map);
+// let simPlaneMarker = L.marker([0, 0], {icon: simPlaneMarkerIcon}).addTo(map);
 
 // Declare the polyline
 let polyLine;
@@ -483,6 +483,7 @@ function initializeUI() {
     let showVatsimData = localStorage.getItem("showVatsimData");
     let mapZoomLevel = localStorage.getItem("mapZoomLevel");
     let mapView = JSON.parse(localStorage.getItem("mapView"));
+    let showUserMenu = localStorage.getItem("showUserMenu");
     
     map.setView(mapView, mapZoomLevel);
 
@@ -518,6 +519,19 @@ function initializeUI() {
         $("#center-aircraft-toggle-button").css({
             "background-color": "#ff5b45"
         });
+    }
+
+    if (showUserMenu == "true") {
+        $(".burger-button").css({
+            "background-color": "#4bff45"
+        });
+        $(".user-menu").show();
+        
+    } else if (showUserMenu == "false") {
+        $(".burger-button").css({
+            "background-color": "#ff5b45"
+        });
+        $(".user-menu").hide();
     }
 }
 
@@ -593,6 +607,11 @@ $(document).ready(function() {
 
     $("#toggle-vatsim-data-button").click(function() {
         toggleUiElement("showVatsimData", ".vatsim-events-container", "#toggle-vatsim-data-button");
+    });
+
+    $(".burger-button").click(function() {
+        console.log("busfaiosjf");
+        toggleUiElement("showUserMenu", ".user-menu", ".burger-button");
     });
 })
 

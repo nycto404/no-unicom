@@ -1,12 +1,37 @@
 /******************************* Following is from style.css *****************************************/
 :root {
-    --navbar-height: 56px; 
-    --footer-height: 56px;
+  --background-color: #ffffff; /* Light background */
+  --text-color: #000000;       /* Dark text */
+  --primary-color: #4169E1;    /* Royal Blue */
+  --secondary-color: #FF7F50;  /* Coral */
+}
+
+/* Dark Mode Styles */
+[data-theme="dark"] {
+  --background-color: #121212; /* Dark background */
+  --text-color: #E0E0E0;       /* Light text */
+  --primary-color: #1E90FF;    /* Electric Blue */
+  --secondary-color: #FF1493;  /* Neon Pink */
 }
 
 html, body {
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+h1, h2, a {
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 a, a:hover, a:visited, a:active {
@@ -17,22 +42,11 @@ table, th, td {
     text-align: center;
   }
 
-
-footer {
-    position: absolute;
-    bottom: 0;
-    height: 56px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /************************* Following is ex msfs link styling *****************************************/
 
 .leaflet-control {
-    background-color: #3261fd;
-    border-radius: 10px;
+  background-color: var(--primary-color);
+  border-radius: 10px;
 }
 
 .leaflet-control-zoom {
@@ -40,14 +54,14 @@ footer {
 }
 
 .leaflet-control-zoom a, .leaflet-control-zoom a:hover {
-    background-color: #3261fd;
+    background-color: var(--primary-color);
 }
 
 .msfs-link-main-container {
     display: flex;
     justify-content: center;
     position: absolute;
-    height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    height: 100%;
     /* height: 100%; */
     width: 100%;
 }
@@ -56,8 +70,53 @@ footer {
     /* height: calc(100vh - var(--navbar-height) - var(--footer-height)); */
     width: 100%;
     border-radius: 25px;
-    margin: 10px 10px 0px 10px;
+    margin: 10px 10px 10px 10px;
 }
+
+.time {
+  position: absolute;
+  top: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  margin-top: 10px;
+  z-index: 5000;
+  background-color: var(--background-color);
+}
+
+#time {
+  padding: 0;
+  margin: 0;
+}
+
+.menu-button {
+  position: absolute;
+  top: 40%;
+  left: 10px;
+  margin-left: 10px;
+  display: block;
+  z-index: 5000;
+}
+
+.burger-button {
+  height: 44px;
+  border-radius: 5px;
+  border-color: #1E90FF;
+  background-color: #1E90FF;
+}
+.user-menu {
+  display: block;
+  position: absolute;
+  padding: 15px;
+  margin: 10px 10px 10px 10px;
+  border-radius: 20px;
+  bottom: 10px;
+  z-index: 5000;
+  height: 50%;
+  width: 97%;
+  background-color: var(--background-color);
+  overflow: auto;
+}
+
 
 .simconnect-status-container {
     position: absolute;
@@ -78,7 +137,7 @@ footer {
 .vatsim-networkinfo-container p{
     padding-left: 10px;
     padding-right: 10px;
-    background-color: #3261fd;
+    background-color: var(--background-color);
     font-style: bold;
     border-radius: 5px;
     margin-top: 15px;
@@ -179,16 +238,7 @@ footer {
 }
 
 @media (max-width:800px) {
-  body {
-    height: 110vh;
-  }
-  /* .navbar {
-    display: none;
-  } */
-  footer {
-      position: absolute;
-      top: 110%;
-      height: var(--footer-height);
-      flex-direction: row;
+  body, html {
+    height: auto;
   }
 }

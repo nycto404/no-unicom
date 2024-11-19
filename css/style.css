@@ -59,6 +59,10 @@ footer {
     margin: 10px 10px 0px 10px;
 }
 
+.user-menu, .menu-button {
+    display: none;
+}
+
 .simconnect-status-container {
     position: absolute;
     left: 10px;
@@ -179,16 +183,46 @@ footer {
 }
 
 @media (max-width:800px) {
-  body {
-    height: 110vh;
+  body, html {
+    height: auto;
   }
-  /* .navbar {
+  .msfs-link-main-container {
+    height: 100%;
+  }
+  .map {
+    margin-bottom: 10px;
+  }
+  .menu-button {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-left: 10px;
+    height: 40px;
+    width: 40px;
+    display: block;
+    z-index: 5000;
+  }
+  .burger-button {
+    height: 44px;
+    width: 44px;
+    border-radius: 5px;
+    border-color: #007bff;
+    background-color: #1E90FF;
+  }
+  .user-menu {
+    display: block;
+    position: absolute;
+    margin: 10px 10px 10px 10px;
+    border-radius: 20px;
+    bottom: 0;
+    z-index: 5000;
+    height: 40%;
+    background-color: rgba(0, 0, 0, 0.781);
+  }
+  nav, .navbar {
     display: none;
-  } */
+  }
   footer {
-      position: absolute;
-      top: 110%;
-      height: var(--footer-height);
-      flex-direction: row;
+    display: none;
   }
 }

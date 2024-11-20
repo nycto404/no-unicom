@@ -285,9 +285,22 @@ function getVatsimNetworkData() {
 }
 
 let updateVatsimNetworkData = data => {
+    // Start the timer for calculating the time it takes to update
     let startTime = new Date().getTime();
-    $("#pilots_online").text(data.pilots.length);
-    $("#controllers_online").text(data.controllers.length);
+
+    // Update the pilots and the controllers element
+    $("#online-pilots").text(" " + data.pilots.length);
+    $("#online-controllers").text(" " + data.controllers.length);
+
+    // Getting the timestamp
+    const dateTimeStr = data.general.update_timestamp;
+    // Create a mew Date object
+    const dateObject = new Date(dateTimeStr);
+    // Parse the time
+    const time = dateObject.toISOString().split('T')[1].split('.')[0];
+    // Update the time element
+    $("#time").html(time + " UTC");
+
     // Create a set of current callsigns. 
     const currentCallsigns = new Set(data.pilots.map(pilot => pilot.callsign));
     let flight_plan, aircraft_short, departure, arrival;
@@ -295,15 +308,15 @@ let updateVatsimNetworkData = data => {
     // Update existing markers or add new ones
     data.pilots.forEach((pilot, index) => {
         const { callsign, latitude, longitude, heading, altitude, transponder } = pilot;
-        console.log(index);
+        // console.log(index);
         try {
             // Assign variables within the try block
             flight_plan = pilot.flight_plan;
             if (flight_plan) {
                 ({ aircraft_short, departure, arrival } = flight_plan);
             }
-            console.log(callsign);
-            console.log(flight_plan);        
+            // console.log(callsign);
+            // console.log(flight_plan);        
         } catch (error) {
             console.log(error);
         } finally {
@@ -460,15 +473,9 @@ function isEventLive(start_time, end_time) {
 function toggleUiElement(localstorage, element, button) {
     if (localStorage.getItem(localstorage) === "true") {
         $(element).hide(300);
-        $(button).css({
-            "backgroundColor": "#ff5b45"
-        });
         localStorage.setItem(localstorage, "false");
     } else if (localStorage.getItem(localstorage) === "false") {
         $(element).show(300);
-        $(button).css({
-            "backgroundColor": "#4bff45"
-        });
         localStorage.setItem(localstorage, "true");
     }
 }
@@ -519,19 +526,6 @@ function initializeUI() {
         $("#center-aircraft-toggle-button").css({
             "background-color": "#ff5b45"
         });
-    }
-
-    if (showUserMenu == "true") {
-        $(".burger-button").css({
-            "background-color": "#4bff45"
-        });
-        $(".user-menu").show();
-        
-    } else if (showUserMenu == "false") {
-        $(".burger-button").css({
-            "background-color": "#ff5b45"
-        });
-        $(".user-menu").hide();
     }
 }
 
@@ -586,13 +580,13 @@ $(document).ready(function() {
         console.log(centerAircraft);
         if (centerAircraft == "true") {
             centerAircraft = "false";
-            localStorage.setItem("centerAircraft", false)
+            localStorage.setItem("centerAircraft", false);
             $("#center-aircraft-toggle-button").css({
                 "backgroundColor": "#ff5b45"
             });
         } else {
             centerAircraft = "true";
-            localStorage.setItem("centerAircraft", true)
+            localStorage.setItem("centerAircraft", true);
             $("#center-aircraft-toggle-button").css({
                 "backgroundColor": "#4bff45"
             });
@@ -610,8 +604,9 @@ $(document).ready(function() {
     });
 
     $(".burger-button").click(function() {
-        console.log("busfaiosjf");
-        toggleUiElement("showUserMenu", ".user-menu", ".burger-button");
+        $(".user-menu").fadeToggle(300);
+        $("#burger-button-icon").toggleClass("fa-x")
+
     });
 })
 

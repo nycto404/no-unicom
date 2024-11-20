@@ -1,7 +1,7 @@
 /******************************* Following is from style.css *****************************************/
 :root {
   --background-color: #ffffff; /* Light background */
-  --background-color-transparent: rgba(255, 255, 255, 0.75); /* Light background */
+  --background-color-transparent: rgba(255, 255, 255, 0.80); /* Light background */
   --text-color: #000000;       /* Dark text */
   --primary-color: #4169E1;    /* Royal Blue */
   --secondary-color: #FF7F50;  /* Coral */
@@ -10,7 +10,7 @@
 /* Dark Mode Styles */
 [data-theme="dark"] {
   --background-color: #121212; /* Dark background */
-  --background-color-transparent: rgba(18, 18, 18, 0.75); /* Light background */
+  --background-color-transparent: rgba(18, 18, 18, 0.80); /* Light background */
   --text-color: #E0E0E0;       /* Light text */
   --primary-color: #1E90FF;    /* Electric Blue */
   --secondary-color: #FF1493;  /* Neon Pink */
@@ -151,14 +151,14 @@ ul {
 
 .user-menu {
   display: none;
+  height: 50%;
+  width: 97%;
   position: absolute;
   padding: 15px;
-  margin: 10px 10px 10px 10px;
+  margin: 10px 10px 20px 10px;
   border-radius: 20px;
   bottom: 10px;
   z-index: 50000;
-  height: 50%;
-  width: 97%;
   background-color: var(--background-color-transparent);
   overflow: auto;
 }

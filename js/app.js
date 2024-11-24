@@ -40,7 +40,7 @@ map.addLayer(lightMaplayer);
 
 // Marker symbol for Vatsim planes
 let vatsimMarkerIcon = L.icon({
-    iconUrl: "images/plane.png",
+    iconUrl: "images/plane-svgrepo-com-dark.svg",
     iconSize: [20, 20],
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]

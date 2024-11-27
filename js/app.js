@@ -211,7 +211,7 @@ function updateMap() {
     let polyLineColor = "#000000";
     try {
         simPlaneMarker.slideTo([latitude, longitude], {duration: 1500}); // Update marker position
-        simPlaneMarker.setRotationAngle(heading); // Update marker rotation angle
+        simPlaneMarker.setRotationAngle(heading-45); // Update marker rotation angle
         if (centerAircraft == true) {
             map.panTo([latitude, longitude]);
         }
@@ -323,11 +323,11 @@ let updateVatsimNetworkData = data => {
             if (vatsimMarkers[callsign]) {
                 // Update position and heading if marker already exists
                 vatsimMarkers[callsign].setLatLng([latitude, longitude]);
-                vatsimMarkers[callsign].setRotationAngle(heading);
+                vatsimMarkers[callsign].setRotationAngle(heading-45);
             } else {
                 // Create and add new marker if it doesn't exist
                 const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);
-                newMarker.setRotationAngle(heading);
+                newMarker.setRotationAngle(heading-45);
                 if (flight_plan) {
                     newMarker.bindPopup(
                         `<h5>${callsign}</h5>

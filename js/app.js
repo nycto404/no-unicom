@@ -1,6 +1,26 @@
 let vatsimMarkers = {}; // Initiate empty markers object for vatsim markers
 const themeButton = document.getElementById("light_dark_switch");
 
+// Get the airport data from the GeoJson file
+let displayAirports = () => {
+    fetch('data/airports.geojson')
+    .then(response => response.json())
+    .then(data => {
+        const AIRPORTS = data;
+        console.log(AIRPORTS);
+        L.geoJSON(AIRPORTS, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng).bindPopup(`
+                    <b>${feature.properties.name}</b><br>
+                    ${feature.properties.city}, ${feature.properties.country}<br>
+                    IATA: ${feature.properties.iata}, ICAO: ${feature.properties.icao}
+                `);
+            }
+        }).addTo(map);
+    })
+    .catch(error => console.error('Error loading GeoJSON:', error));
+}
+
 // Define the map
 let map = L.map('map', {
     // dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
@@ -616,6 +636,7 @@ themeButton.addEventListener("click", function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // First initialize
+// displayAirports()
 setMsfsTheme(getCurrentTheme());
 initializeUI();
 getVatsimEvents(); 

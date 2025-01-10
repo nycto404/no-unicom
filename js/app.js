@@ -352,7 +352,9 @@ let updateVatsimNetworkData = data => {
                     newMarker.bindPopup(
                         `<h5>${callsign}</h5>
                          <h6>${aircraft_short}</h6>
-                         <p>${departure} > ${arrival}
+                         <h6>${departure} > ${arrival}</h6>
+                         <h6>Altitude: ${altitude}</h6>
+                         <h6>Heading: ${heading}</h6>
                         `
                     );
                 } else {

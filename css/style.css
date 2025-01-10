@@ -21,7 +21,8 @@ html, body {
     height: 100%;
     background-color: var(--background-color);
     color: var(--text-color);
-}
+    font-family: 'Roboto', sans-serif;
+  }
 
 h1, h2, h3, h4, a {
   color: var(--primary-color);
@@ -47,6 +48,10 @@ table, th, td {
 
 ul {
   list-style: none;
+}
+
+.leaflet-container {
+  font-family: 'Roboto', sans-serif;
 }
 
 .leaflet-control {
@@ -124,6 +129,7 @@ ul {
 .info-container {
   height: auto;
   width: auto;
+  font-weight:100;
   padding: 10px 10px 10px 10px;
   border-radius: 15px;
   z-index: 5000;
@@ -249,7 +255,7 @@ ul {
 .leaflet-popup-content-wrapper {
     height: auto;
     width: auto;
-    background-color: #3261fd; 
+    background-color: var(--primary-color);
     color: #ffffff;            
     font-size: 14px;
     padding: 10px;              

@@ -1,6 +1,9 @@
 let vatsimMarkers = {}; // Initiate empty markers object for vatsim markers
 const themeButton = document.getElementById("light_dark_switch");
 
+// Get browser
+console.log("Browser:", navigator.appName);
+
 // Get the airport data from the GeoJson file
 let displayAirports = () => {
     fetch('data/airports.geojson')
@@ -60,7 +63,7 @@ map.addLayer(lightMaplayer);
 
 // Marker symbol for Vatsim planes
 let vatsimMarkerIcon = L.icon({
-    iconUrl: "images/plane-svgrepo-com-dark.svg",
+    iconUrl: "images/plane-svgrepo-com.svg",
     iconSize: [20, 20],
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]
@@ -328,22 +331,20 @@ let updateVatsimNetworkData = data => {
     // Update existing markers or add new ones
     data.pilots.forEach((pilot, index) => {
         const { callsign, latitude, longitude, heading, altitude, transponder } = pilot;
-        // console.log(index);
         try {
             // Assign variables within the try block
             flight_plan = pilot.flight_plan;
             if (flight_plan) {
                 ({ aircraft_short, departure, arrival } = flight_plan);
             }
-            // console.log(callsign);
-            // console.log(flight_plan);        
         } catch (error) {
             console.log(error);
         } finally {
             if (vatsimMarkers[callsign]) {
                 // Update position and heading if marker already exists
                 vatsimMarkers[callsign].setLatLng([latitude, longitude]);
-                vatsimMarkers[callsign].setRotationAngle(heading);
+                console.log('Setting rotation angle: ',callsign, heading);
+                vatsimMarkers[callsign].setRotationAngle(0);
             } else {
                 // Create and add new marker if it doesn't exist
                 const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);

@@ -344,7 +344,7 @@ let updateVatsimNetworkData = data => {
                 // Update position and heading if marker already exists
                 vatsimMarkers[callsign].setLatLng([latitude, longitude]);
                 console.log('Setting rotation angle: ',callsign, heading);
-                vatsimMarkers[callsign].setRotationAngle(0);
+                vatsimMarkers[callsign].setRotationAngle(heading);
             } else {
                 // Create and add new marker if it doesn't exist
                 const newMarker = L.marker([latitude, longitude], { icon: vatsimMarkerIcon }).addTo(map);

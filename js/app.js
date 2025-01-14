@@ -6,12 +6,23 @@ console.log("Browser:", navigator.appName);
 
 // Get the airport data from the GeoJson file
 let displayAirports = () => {
+    let markers = new L.MarkerClusterGroup();
     fetch('data/airports.geojson')
     .then(response => response.json())
     .then(data => {
         const AIRPORTS = data;
-        console.log(AIRPORTS);
-        L.geoJSON(AIRPORTS, {
+        console.log(data);
+        const bounds = map.getBounds();
+
+        // Filter the airports based on the current map bounds
+        const filteredAirports = AIRPORTS.features.filter(feature => {
+            const [lng, lat] = feature.geometry.coordinates;
+            return bounds.contains([lat, lng]);
+        });
+
+        console.log('No. of visible airports: ' + filteredAirports.length);
+
+        L.geoJSON(filteredAirports, {
             pointToLayer: function (feature, latlng) {
                 return L.marker(latlng).bindPopup(`
                     <b>${feature.properties.name}</b><br>
@@ -19,9 +30,9 @@ let displayAirports = () => {
                     IATA: ${feature.properties.iata}, ICAO: ${feature.properties.icao}
                 `);
             }
-        }).addTo(map);
-    })
-    .catch(error => console.error('Error loading GeoJSON:', error));
+        }).addTo(markers);
+        markers.addTo(map);
+    }).catch(error => console.error('Error loading GeoJSON:', error));
 }
 
 // Define the map
@@ -36,6 +47,9 @@ let map = L.map('map', {
     maxBounds: [[-90, -180], [90, 180]],  // World bounds
     maxBoundsViscosity: 1.0
 });
+
+map.on('moveend', displayAirports);
+map.on('zoomend', displayAirports);
 
 // Creating Layers
 //const osmMapnik = new L.tileLayer.provider('OpenStreetMap.Mapnik');
@@ -68,6 +82,14 @@ let vatsimMarkerIcon = L.icon({
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]
 })
+
+let airportIcon = L.icon({
+    iconUrl: "images/plane-svgrepo-com.svg",
+    iconSize: [20, 20],
+    iconAnchor: [15, 0],
+    popupAnchor: [0, 0]
+})
+
 
 // Icon
 // let simPlaneMarker = L.marker([0, 0], {icon: simPlaneMarkerIcon}).addTo(map);
@@ -343,7 +365,6 @@ let updateVatsimNetworkData = data => {
             if (vatsimMarkers[callsign]) {
                 // Update position and heading if marker already exists
                 vatsimMarkers[callsign].setLatLng([latitude, longitude]);
-                console.log('Setting rotation angle: ',callsign, heading);
                 vatsimMarkers[callsign].setRotationAngle(heading);
             } else {
                 // Create and add new marker if it doesn't exist
@@ -639,7 +660,7 @@ themeButton.addEventListener("click", function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // First initialize
-// displayAirports()
+displayAirports()
 setMsfsTheme(getCurrentTheme());
 initializeUI();
 getVatsimEvents(); 
@@ -647,4 +668,4 @@ getVatsimEvents();
 getVatsimNetworkData()
 setInterval(saveCurrentMapView, 5000);
 
-
+// test();

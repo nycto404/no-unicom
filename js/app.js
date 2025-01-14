@@ -4,37 +4,6 @@ const themeButton = document.getElementById("light_dark_switch");
 // Get browser
 console.log("Browser:", navigator.appName);
 
-// Get the airport data from the GeoJson file
-let displayAirports = () => {
-    let markers = new L.MarkerClusterGroup();
-    fetch('data/airports.geojson')
-    .then(response => response.json())
-    .then(data => {
-        const AIRPORTS = data;
-        console.log(data);
-        const bounds = map.getBounds();
-
-        // Filter the airports based on the current map bounds
-        const filteredAirports = AIRPORTS.features.filter(feature => {
-            const [lng, lat] = feature.geometry.coordinates;
-            return bounds.contains([lat, lng]);
-        });
-
-        console.log('No. of visible airports: ' + filteredAirports.length);
-
-        L.geoJSON(filteredAirports, {
-            pointToLayer: function (feature, latlng) {
-                return L.marker(latlng).bindPopup(`
-                    <b>${feature.properties.name}</b><br>
-                    ${feature.properties.city}, ${feature.properties.country}<br>
-                    IATA: ${feature.properties.iata}, ICAO: ${feature.properties.icao}
-                `);
-            }
-        }).addTo(markers);
-        markers.addTo(map);
-    }).catch(error => console.error('Error loading GeoJSON:', error));
-}
-
 // Define the map
 let map = L.map('map', {
     // dragging: !L.Browser.mobile, // Dragging only with two fingers on mobile
@@ -48,24 +17,65 @@ let map = L.map('map', {
     maxBoundsViscosity: 1.0
 });
 
-map.on('moveend', displayAirports);
-map.on('zoomend', displayAirports);
-
 // Creating Layers
 //const osmMapnik = new L.tileLayer.provider('OpenStreetMap.Mapnik');
 const lightMaplayer = new L.tileLayer.provider('CartoDB.Positron');
 const darkMaplayer = new L.tileLayer.provider('CartoDB.DarkMatter');
 const satelliteMaplayer = new L.tileLayer.provider('Esri.WorldImagery');
-
 const baseLayers = {
     "Light": lightMaplayer,
     "Dark": darkMaplayer,
     "Satellite": satelliteMaplayer
 }
-
 // Layercontrol
 const layerControl = L.control.layers(baseLayers).addTo(map);
+
+// Add the light map layer to the map
 map.addLayer(lightMaplayer);
+
+// New cluster group for the airports
+let airportMarkers = new L.MarkerClusterGroup();
+
+// Add the airport markers layer to the map
+map.addLayer(airportMarkers);
+
+// Get the airport data from the GeoJson file
+let displayAirports = () => {
+    fetch('data/airports.geojson')
+    .then(response => response.json())
+    .then(data => {
+        const AIRPORTS = data;
+        // console.log(data);
+        const bounds = map.getBounds();
+
+        // Filter the airports based on the current map bounds
+        const filteredAirports = AIRPORTS.features.filter(feature => {
+            const [lng, lat] = feature.geometry.coordinates;
+            return bounds.contains([lat, lng]);
+        });
+
+        // console.log('No. of visible airports: ' + filteredAirports.length);
+
+        // Clear existing markers
+        airportMarkers.clearLayers();
+
+        L.geoJSON(filteredAirports, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng).bindPopup(`
+                    <b>${feature.properties.name}</b><br>
+                    ${feature.properties.city}, ${feature.properties.country}<br>
+                    IATA: ${feature.properties.iata}, ICAO: ${feature.properties.icao}
+                `);
+            }
+        }).addTo(airportMarkers);
+        airportMarkers.addTo(map);
+    }).catch(error => console.error('Error loading GeoJSON:', error));
+}
+
+// Eventlistener for updating the map
+map.on('moveend', displayAirports);
+map.on('zoomend', displayAirports);
+
 
 // Marker symbol for the simulator plane
 // let simPlaneMarkerIcon = L.icon({
@@ -237,75 +247,75 @@ function getPlaneData() {
 }
 
 // Update the UI based on fetched data from the simulator
-function updateUI() {
-    console.log("Updating UI...");
-    try {
-        $("#lat").text(latitude.toFixed(2));
-        $("#lon").text(longitude.toFixed(2));
-        $("#alt").text(altitude);
-        $("#ias").text(airspeed);
-        $("#fuel").text(fuelPercentQty);
-    } catch (error) {
-        console.error(error);
-    }
-}
+// function updateUI() {
+//     console.log("Updating UI...");
+//     try {
+//         $("#lat").text(latitude.toFixed(2));
+//         $("#lon").text(longitude.toFixed(2));
+//         $("#alt").text(altitude);
+//         $("#ias").text(airspeed);
+//         $("#fuel").text(fuelPercentQty);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
-// Update the map
-function updateMap() {
-    console.log("Updating map...")
-    let polyLineColor = "#000000";
-    try {
-        simPlaneMarker.slideTo([latitude, longitude], {duration: 1500}); // Update marker position
-        simPlaneMarker.setRotationAngle(heading); // Update marker rotation angle
-        if (centerAircraft == true) {
-            map.panTo([latitude, longitude]);
-        }
-        map.removeLayer(polyLine);
-        theme = getCurrentTheme();
-        if (theme == "light") {
-            polyLineColor = "#18241e";
-        } else if (theme == "dark") {
-            polyLineColor = "#d5f0e3";
-        }
-        polyLine = L.polyline(coordinatesArray, {color: polyLineColor, weight: 2}).addTo(map);
-    } catch (error) {
-        console.error(error);
-    }
-}
+// Update the map (only for the simulator plane)
+// function updateMap() {
+//     console.log("Updating map...")
+//     let polyLineColor = "#000000";
+//     try {
+//         simPlaneMarker.slideTo([latitude, longitude], {duration: 1500}); // Update marker position
+//         simPlaneMarker.setRotationAngle(heading); // Update marker rotation angle
+//         if (centerAircraft == true) {
+//             map.panTo([latitude, longitude]);
+//         }
+//         map.removeLayer(polyLine);
+//         theme = getCurrentTheme();
+//         if (theme == "light") {
+//             polyLineColor = "#18241e";
+//         } else if (theme == "dark") {
+//             polyLineColor = "#d5f0e3";
+//         }
+//         polyLine = L.polyline(coordinatesArray, {color: polyLineColor, weight: 2}).addTo(map);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
-// Update chart
-function updateChart() {
-    console.log("Updating chart...")
-    try {
-        chart.data.datasets[0].data = altitudeArray;
-        chart.data.datasets[1].data = altitudeAboveGroundArray;
-        chart.data.datasets[2].data = airspeedArray;
-        chart.data.datasets[3].data = verticalSpeedArray;
-        chart.update();
-    } catch (error) {
-        console.error(error);
-    }
-}
+// Update chart (only simulator plane)
+// function updateChart() {
+//     console.log("Updating chart...")
+//     try {
+//         chart.data.datasets[0].data = altitudeArray;
+//         chart.data.datasets[1].data = altitudeAboveGroundArray;
+//         chart.data.datasets[2].data = airspeedArray;
+//         chart.data.datasets[3].data = verticalSpeedArray;
+//         chart.update();
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
-// Clear the chart by emptying the array and updating the chart
-function clearChart() {
-    console.log("Clearing chart...");
-    try {
-        timestampArray = [];
-        altitudeArray = [];
-        altitudeAboveGroundArray = [];
-        airspeedArray = [];
-        verticalSpeedArray = [];
-        chart.data.labels = timestampArray;
-        chart.data.datasets[0].data = altitudeArray;
-        chart.data.datasets[1].data = altitudeAboveGroundArray;
-        chart.data.datasets[2].data = airspeedArray;
-        chart.data.datasets[3].data = verticalSpeedArray;
-        chart.update();
-    } catch (error) {
-        console.error(error);
-    }
-}
+// Clear the chart by emptying the array and updating the chart (only simulator plane)
+// function clearChart() {
+//     console.log("Clearing chart...");
+//     try {
+//         timestampArray = [];
+//         altitudeArray = [];
+//         altitudeAboveGroundArray = [];
+//         airspeedArray = [];
+//         verticalSpeedArray = [];
+//         chart.data.labels = timestampArray;
+//         chart.data.datasets[0].data = altitudeArray;
+//         chart.data.datasets[1].data = altitudeAboveGroundArray;
+//         chart.data.datasets[2].data = airspeedArray;
+//         chart.data.datasets[3].data = verticalSpeedArray;
+//         chart.update();
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 // Fetching vatsim network data
 function getVatsimNetworkData() {

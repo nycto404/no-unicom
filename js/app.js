@@ -17,6 +17,9 @@ let map = L.map('map', {
     maxBoundsViscosity: 1.0
 });
 
+// New cluster group for the airports
+let airportMarkers = new L.MarkerClusterGroup();
+
 // Creating Layers
 //const osmMapnik = new L.tileLayer.provider('OpenStreetMap.Mapnik');
 const lightMaplayer = new L.tileLayer.provider('CartoDB.Positron');
@@ -27,20 +30,28 @@ const baseLayers = {
     "Dark": darkMaplayer,
     "Satellite": satelliteMaplayer
 }
+
+const overlays = {
+    "Airports": airportMarkers
+}
+
 // Layercontrol
-const layerControl = L.control.layers(baseLayers).addTo(map);
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
 
 // Add the light map layer to the map
 map.addLayer(lightMaplayer);
 
-// New cluster group for the airports
-let airportMarkers = new L.MarkerClusterGroup();
 
 // Add the airport markers layer to the map
 map.addLayer(airportMarkers);
 
 // Get the airport data from the GeoJson file
 let displayAirports = () => {
+    // Check if the airports layer is active
+    if (!map.hasLayer(airportMarkers)) {
+        return;
+    }
+
     fetch('data/airports.geojson')
     .then(response => response.json())
     .then(data => {

@@ -41,9 +41,7 @@
 
     <div class="msfs-link-main-container">
         <div class="map" id="map">
-
             <div class="general-information">
-
                 <div class="info-container" id="pilots">
                     <h4><i class="fa-solid fa-plane"></i><span id="online-pilots"> </span></h4>
                 </div>
@@ -52,24 +50,23 @@
                     <h4><i class="fa-solid fa-tower-observation"></i><span id="online-controllers"> </span></h4>
                 </div>
         
-                
                 <div class="info-container" id="time-container">
                     <h4 id="time"></h4>
                 </div>
-
             </div>
-    
-    
         </div>
 
         <div class="menu-button">
             <button class="burger-button"><i class="fa-solid fa-bars" id="burger-button-icon"></i></button>
         </div>
 
+        <div class="theme-button">
+            <button class="burger-button" id="light_dark_switch" onclick=toggleTheme()><i class="fa-solid fa-sun" id="light_dark_switch_icon"></i></button>
+        </div>
+
 
         <div class="user-menu">
             <div class="controls">
-                <button class="btn btn-dark" id="light_dark_switch" onclick=toggleTheme()><i class="fa-solid fa-sun" id="light_dark_switch_icon"></i></button>
                 <input type="checkbox" id="toggle-aircrafts-checkbox" name="toggle-aircrafts" value="toggle-aircrafts">
                 <label for="toggle-aircrafts-checkbox">Toggle Aircrafts</label>
                 <input type="checkbox" id="toggle-airports-checkbox" name="toggle-airports" value="toggle-airports">

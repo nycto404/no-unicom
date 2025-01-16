@@ -52,6 +52,7 @@ ul {
 
 .leaflet-container {
   font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color); /* Background color of the loading tiles, to match the theme */
 }
 
 .leaflet-control {

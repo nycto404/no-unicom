@@ -266,7 +266,7 @@ ul {
 }
 
 /* Customize the popup */
-.leaflet-popup-content-wrapper {
+.leaflet-popup-content-wrapper, .fir-label {
     height: auto;
     width: auto;
     background-color: var(--primary-color);
@@ -282,7 +282,7 @@ ul {
 }
 
   /* Customize the popup tip */
-.leaflet-popup-tip {
+.leaflet-popup-tip, .fir-label {
   background: #3261fd; /* Color the tip */
 }
 

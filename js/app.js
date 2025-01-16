@@ -19,6 +19,7 @@ let map = L.map('map', {
 
 // New cluster group for the airports
 let airportMarkers = new L.MarkerClusterGroup();
+let FIR = new L.FeatureGroup();
 
 // Creating Layers
 //const osmMapnik = new L.tileLayer.provider('OpenStreetMap.Mapnik');
@@ -32,7 +33,8 @@ const baseLayers = {
 }
 
 const overlays = {
-    "Airports": airportMarkers
+    "Airports": airportMarkers,
+    "FIR": FIR
 }
 
 // Layercontrol
@@ -44,6 +46,7 @@ map.addLayer(lightMaplayer);
 
 // Add the airport markers layer to the map
 map.addLayer(airportMarkers);
+map.addLayer(FIR);
 
 // Get the airport data from the GeoJson file
 let displayAirports = () => {
@@ -88,6 +91,34 @@ map.on('moveend', displayAirports);
 map.on('zoomend', displayAirports);
 
 
+// Display FIR boundaries
+let displayFIR = () => {
+    fetch('data/fir.geojson')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        const FIR = data;
+        const bounds = map.getBounds();
+        L.geoJSON(FIR, {
+            style: function (feature) {
+                return {
+                    color: 'blue',
+                    weight: 2
+                }
+            },
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.id) {
+                    layer.bindTooltip(feature.properties.id, {
+                        permanent: true,
+                        direction: 'center',
+                        className: 'fir-label'
+                    });
+                }
+            }        }).addTo(map); // Add the filtered FIR to the map
+
+    }).catch(error => console.error('Error loading FIR boundaries:', error));
+}
+
 // Marker symbol for the simulator plane
 // let simPlaneMarkerIcon = L.icon({
 //     iconUrl: "images/plane.png",
@@ -103,14 +134,6 @@ let vatsimMarkerIcon = L.icon({
     iconAnchor: [15, 0],
     popupAnchor: [0, 0]
 })
-
-let airportIcon = L.icon({
-    iconUrl: "images/plane-svgrepo-com.svg",
-    iconSize: [20, 20],
-    iconAnchor: [15, 0],
-    popupAnchor: [0, 0]
-})
-
 
 // Icon
 // let simPlaneMarker = L.marker([0, 0], {icon: simPlaneMarkerIcon}).addTo(map);
@@ -682,6 +705,7 @@ themeButton.addEventListener("click", function() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // First initialize
 displayAirports()
+displayFIR();
 setMsfsTheme(getCurrentTheme());
 initializeUI();
 getVatsimEvents(); 

@@ -33,8 +33,8 @@ const baseLayers = {
 }
 
 const overlays = {
-    "Airports": airportMarkers,
-    "FIR": FIR
+    "Airports": airportMarkers
+    // "FIR": FIR
 }
 
 // Layercontrol
@@ -705,7 +705,7 @@ themeButton.addEventListener("click", function() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // First initialize
 displayAirports()
-displayFIR();
+// displayFIR();
 setMsfsTheme(getCurrentTheme());
 initializeUI();
 getVatsimEvents(); 

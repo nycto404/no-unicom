@@ -1,5 +1,7 @@
 let vatsimMarkers = {}; // Initiate empty markers object for vatsim markers
 const themeButton = document.getElementById("light_dark_switch");
+let onlinePilots = 0;
+let onlineControllers = 0;
 
 // Get browser
 console.log("Browser:", navigator.appName);
@@ -351,6 +353,36 @@ function getPlaneData() {
 //     }
 // }
 
+let calculateTrend = (pilots, controllers) => {
+    console.log("Calculating trend...");
+    if (pilots > onlinePilots) {
+        $("#online-pilots").css({
+            "color": "#4bff45"
+        });
+    } else if (pilots < onlinePilots) {
+        $("#online-pilots").css({
+            "color": "#ff5b45"
+        });
+    } else {
+        $("#online-pilots").css({
+            "color": "#1E90FF"
+        });
+    }
+    if (controllers > onlineControllers) {
+        $("#online-controllers").css({
+            "color": "#4bff45"
+        });
+    } else if (controllers < onlineControllers) {
+        $("#online-controllers").css({
+            "color": "#ff5b45"
+        });
+    } else {     
+        $("#online-controllers").css({
+            "color": "#1E90FF"
+        });
+    }
+}
+
 // Fetching vatsim network data
 function getVatsimNetworkData() {
     console.log("Getting Vatsim network data...")
@@ -377,7 +409,14 @@ let updateVatsimNetworkData = data => {
     // Start the timer for calculating the time it takes to update
     let startTime = new Date().getTime();
 
-    // Update the pilots and the controllers element
+    calculateTrend(data.pilots.length, data.controllers.length);
+
+
+    onlinePilots = data.pilots.length;
+    onlineControllers = data.controllers.length;
+
+
+
     $("#online-pilots").text(" " + data.pilots.length);
     $("#online-controllers").text(" " + data.controllers.length);
 

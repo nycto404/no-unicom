@@ -19,6 +19,11 @@ let map = L.map('map', {
     maxBoundsViscosity: 1.0
 });
 
+map.on("click", function() {
+    $(".user-menu").fadeOut(300);
+    $("#burger-button-icon").removeClass("fa-x");
+});
+
 // New cluster group for the airports
 let airportMarkers = new L.MarkerClusterGroup();
 let FIR = new L.FeatureGroup();

@@ -52,8 +52,8 @@ map.addLayer(lightMaplayer);
 
 
 // Add the airport markers layer to the map
-map.addLayer(airportMarkers);
-map.addLayer(FIR);
+//map.addLayer(airportMarkers);
+//map.addLayer(FIR);
 
 // Get the airport data from the GeoJson file
 let displayAirports = () => {

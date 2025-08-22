@@ -2,6 +2,7 @@ let vatsimMarkers = {}; // Initiate empty markers object for vatsim markers
 const themeButton = document.getElementById("light_dark_switch");
 let onlinePilots = 0;
 let onlineControllers = 0;
+let navLog = [];
 
 // Get browser
 console.log("Browser:", navigator.appName);
@@ -96,6 +97,14 @@ let displayAirports = () => {
 // Eventlistener for updating the map
 map.on('moveend', displayAirports);
 map.on('zoomend', displayAirports);
+
+map.on("click", function(e) {
+    console.log(typeof(e.latlng));
+    const lat = e.latlng['lat'];
+    const lng = e.latlng['lng'];
+    navLog.push([lat, lng]);
+    console.log(navLog);
+});
 
 
 // Display FIR boundaries
@@ -755,6 +764,7 @@ initializeUI();
 getVatsimEvents(); 
 // getPlaneData();
 getVatsimNetworkData()
+fetchAircraftData(); // Fetch aircraft data from ADSB.fi API
 setInterval(saveCurrentMapView, 5000);
 
 // test();

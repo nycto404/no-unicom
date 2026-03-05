@@ -1,0 +1,31 @@
+{
+  "name": "no-unicom",
+  "version": "1.0.0",
+  "description": "VATSIM aircraft tracking application",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "leaflet": "^1.9.4",
+    "leaflet-providers": "^2.0.0",
+    "leaflet.markercluster": "^1.5.3",
+    "socket.io-client": "^4.1.2",
+    "vue": "^3.4.19"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "eslint": "^8.55.0",
+    "eslint-plugin-vue": "^9.20.1",
+    "sass": "^1.70.0",
+    "vite": "^5.0.10"
+  }
+}
